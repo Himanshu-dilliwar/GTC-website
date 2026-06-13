@@ -1,0 +1,3 @@
+bun run formatcheck
+bun run lint
+bun run build

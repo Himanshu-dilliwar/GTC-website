@@ -1,0 +1,15 @@
+type CardType = {
+  children: React.ReactNode;
+  title?: string;
+  titleCSS?: string;
+  classname?: string;
+};
+
+export const Card = ({ children, title, titleCSS, classname }: CardType) => {
+  return (
+    <div className={`${classname} border p-2`}>
+      <h1 className={`${titleCSS} uppercase text-foreground`}>{title}</h1>
+      {children}
+    </div>
+  );
+};

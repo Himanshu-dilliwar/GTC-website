@@ -1,0 +1,91 @@
+"use client";
+import { AnimatePresence, motion, Variants } from "motion/react";
+import React from "react";
+import { usePathname } from "next/navigation";
+import { LayoutRouterContext } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { useContext, useRef } from "react";
+
+const noColumns = 5;
+
+const variantBuilder = (variants: Variants, custom: null | number = null) => {
+  return {
+    initial: "initial",
+    animate: "enter",
+    exit: "exit",
+    custom,
+    variants,
+  };
+};
+
+const expand = {
+  initial: {
+    top: 0,
+  },
+  enter: (i: number) => ({
+    top: "100vh",
+    transition: {
+      duration: 0.4,
+      delay: 0.05 * i,
+      ease: [0.215, 0.61, 0.355, 1],
+    },
+    transitionEnd: { height: "0", top: "0" },
+  }),
+  exit: (i: number) => ({
+    height: "100vh",
+    transition: {
+      duration: 0.4,
+      delay: 0.05 * i,
+      ease: [0.215, 0.61, 0.355, 1],
+    },
+  }),
+};
+
+const opacity = {
+  initial: {
+    opacity: 0.5,
+  },
+  enter: {
+    opacity: 0,
+  },
+  exit: {
+    opacity: 0.5,
+  },
+};
+
+function FrozenRouter(props: { children: React.ReactNode }) {
+  const context = useContext(LayoutRouterContext ?? {});
+  const frozen = useRef(context).current;
+
+  return (
+    <LayoutRouterContext.Provider value={frozen}>
+      {props.children}
+    </LayoutRouterContext.Provider>
+  );
+}
+
+export default function Template({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+
+  return (
+    <>
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div key={pathname} className="transition-wrapper">
+          <motion.div
+            {...variantBuilder(opacity)}
+            className="transition-background"
+          />
+          <motion.div className="transition-container">
+            {[...Array(noColumns)].map((_, i) => (
+              <motion.div
+                id="stair"
+                key={i}
+                {...variantBuilder(expand, noColumns - i)}
+              />
+            ))}
+          </motion.div>
+          <FrozenRouter>{children}</FrozenRouter>
+        </motion.div>
+      </AnimatePresence>
+    </>
+  );
+}
