@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "../ui/button";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 // import { signIn, signOut, useSession } from "next-auth/react";
 
 const Navbar = ({ navref }: { navref: React.RefObject<HTMLDivElement> }) => {

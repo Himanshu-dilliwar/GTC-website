@@ -41,7 +41,7 @@ export const authOptions: AuthOptions = {
         }
 
         try {
-          const user = prisma.user.create({
+          const user = await prisma.user.create({
             data: {
               name: credentials.name,
               AdmNo: credentials.AdmNo,

@@ -1,9 +1,7 @@
 "use client";
-import { AnimatePresence, motion, Variants } from "motion/react";
+import { AnimatePresence, motion, Variants } from "framer-motion";
 import React from "react";
 import { usePathname } from "next/navigation";
-import { LayoutRouterContext } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import { useContext, useRef } from "react";
 
 const noColumns = 5;
 
@@ -52,17 +50,6 @@ const opacity = {
   },
 };
 
-function FrozenRouter(props: { children: React.ReactNode }) {
-  const context = useContext(LayoutRouterContext ?? {});
-  const frozen = useRef(context).current;
-
-  return (
-    <LayoutRouterContext.Provider value={frozen}>
-      {props.children}
-    </LayoutRouterContext.Provider>
-  );
-}
-
 export default function Template({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
@@ -83,7 +70,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
               />
             ))}
           </motion.div>
-          <FrozenRouter>{children}</FrozenRouter>
+          {children}
         </motion.div>
       </AnimatePresence>
     </>

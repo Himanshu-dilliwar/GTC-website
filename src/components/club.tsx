@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 
 import AIML from "@/public/AIML1.png";
 import Game from "@/public/Game.png";
